@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiroCerto — Seu restaurante fazendo caixa de verdade</title>
+  <meta name="description" content="GiroCerto é o único sistema que combina gestão, precificação, proteção contra golpes e fidelização de clientes para restaurantes no iFood. Tudo em um só lugar, direto do seu computador.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:       #ff4757;
+      --black:     #111111;
+      --white:     #ffffff;
+      --gray-bg:   #f9f9f9;
+      --gray-text: #555555;
+      --font:      'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── TIPOGRAFIA ── */
+    h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 900; line-height: 1.18; }
+    h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.2; }
+    p  { font-size: 1.05rem; line-height: 1.8; color: var(--gray-text); }
+
+    .highlight { color: var(--red); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    /* ── BOTÕES ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 36px;
+      border-radius: 10px;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-red   { background: var(--red); color: var(--white); box-shadow: 0 6px 24px rgba(255,71,87,0.35); }
+    .btn-white { background: var(--white); color: var(--red); box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+
+    /* ── PLACEHOLDER DE IMAGEM ── */
+    .img-ph {
+      background: #ececec;
+      border: 2px dashed #ccc;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-family: var(--font);
+      font-size: 13px;
+      font-style: italic;
+      min-height: 320px;
+    }
+
+    /* ═══════════════════════════════
+       NAVBAR
+    ═══════════════════════════════ */
+    #navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--white);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+    }
+    .nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .nav-logo {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--black);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--red); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--black);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ═══════════════════════════════
+       SEÇÃO 1 — HERO
+    ═══════════════════════════════ */
+    #hero {
+      padding: 110px 0 90px;
+      background: var(--white);
+    }
+    .hero-text { max-width: 580px; }
+    .hero-text h1 { margin-bottom: 22px; }
+    .hero-text p  { margin-bottom: 36px; font-size: 1.1rem; max-width: 500px; }
+
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .hero-combo {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .combo-img {
+      width: 380px;
+      height: auto;
+      display: block;
+    }
+    .lata-giro-certo {
+      width: 180px;
+      transform: translateX(120vw);
+      transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+      align-self: flex-end;
+      margin-bottom: 10px;
+      margin-left: -65px;
+    }
+    .lata-giro-certo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ═══════════════════════════════
+       SEÇÃO 2 — PROVA SOCIAL
+    ═══════════════════════════════ */
+    #social-proof { padding: 80px 0; background: var(--white); }
+    .social-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .social-text h2 { margin-bottom: 16px; }
+    .social-text p  { font-size: 1rem; }
+
+    /* ── CERT IMAGE + FLOATING SEAL ── */
+    .cert-wrap {
+      position: relative;
+      width: 100%;
+      display: block;
+      line-height: 0;
+    }
+    .cert-img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+    }
+    .cert-selo-float {
+      position: absolute;
+      width: 8%;
+      top: 28%;
+      left: 62%;
+      animation: seloFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+    }
+    @keyframes seloFloat {
+      0%, 100% { transform: translateY(0px);  }
+      50%       { transform: translateY(-7px); }
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #1877f2;
+      color: white;
+      padding: 3px 12px 3px 8px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-left: 10px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .verified-badge svg { width: 13px; height: 13px; fill: white; flex-shrink: 0; }
+
+    /* ═══════════════════════════════
+       SEÇÃO 3 — DOR
+    ═══════════════════════════════ */
+    #dor {
+      padding: 96px 0;
+      background: var(--white);
+      text-align: center;
+    }
+    #dor h2 {
+      margin-bottom: 28px;
+      max-width: 740px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #dor p { max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
+
+    /* ═══════════════════════════════
+       SEÇÃO 4 — ANTI-GOLPE
+    ═══════════════════════════════ */
+    #anti-golpe { padding: 96px 0; background: var(--gray-bg); }
+    #anti-golpe h2 { margin-bottom: 18px; }
+    #anti-golpe p  { font-size: 1.05rem; }
+    .anti-golpe-img-wrap { position: relative; display: inline-block; width: 100%; }
+    .anti-golpe-img-wrap img.painel { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.14); display: block; }
+    .anti-golpe-arrow {
+      position: absolute;
+      left: 22%;
+      top: 38%;
+      width: 110px;
+      animation: arrowPulse 1.1s ease-in-out infinite;
+    }
+    @keyframes arrowPulse {
+      0%, 100% { transform: translateX(0); }
+      50%       { transform: translateX(-14px); }
+    }
+
+    /* ═══════════════════════════════
+       SEÇÃO 5 — FAZER CAIXA
+    ═══════════════════════════════ */
+    #fazer-caixa { padding: 96px 0; background: var(--white); }
+    #fazer-caixa h2 { margin-bottom: 18px; }
+    #fazer-caixa p  { font-size: 1.05rem; }
+
+    /* ── CDO CHART PANEL ── */
+    .cdo-chart-panel {
+      background: #0d1117;
+      border-radius: 14px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.32);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cdo-chart-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4a5168;
+    }
+    #cdoChartCanvas { width: 100%; display: block; }
+
+    /* ── CDO BLUR ANIMATION ── */
+    .cdo-blur-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+    .cdo-blur-img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      filter: blur(0px);
+      transition: filter 0.5s ease-in;
+      will-change: filter;
+    }
+    .cdo-blur-cta {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+      pointer-events: none;
+    }
+    .cdo-cta-line1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 10px;
+      line-height: 1.3;
+    }
+    .cdo-cta-line2 {
+      font-size: 15px;
+      font-weight: 400;
+      color: #cccccc;
+      margin: 0;
+    }
+    @media (max-width: 480px) {
+      .cdo-cta-line1 { font-size: 16px; }
+      .cdo-cta-line2 { font-size: 13px; }
+    }
+
+    /* ── CDO CARDS HIGHLIGHT ANIMATION ── */
+    .cdo-cards-anim {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      line-height: 0;
+      padding-left: 3px;
+      box-sizing: border-box;
+    }
+    .cdo-cards-img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+    .cdo-card-overlay {
+      position: absolute;
+      top: 0;
+      width: 33.334%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.72);
+      transition: opacity 0.7s ease;
+      opacity: 1;
+      border-radius: 0;
+    }
+    #cdoCardOv1 { left: 0; width: 35%; }
+    #cdoCardOv2 { left: 35%; width: 32%; }
+    #cdoCardOv3 { left: 67%; width: 33%; }
+    .cdo-chart-legend {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #4a5168;
+    }
+    .cdo-chart-legend span { display: flex; align-items: center; gap: 6px; }
+    .cdo-dot-g { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
+    .cdo-dot-r { width: 10px; height: 10px; border-radius: 50%; background: #ef4444; }
+
+    /* ── PAINEL DEMO — ANIMAÇÃO BOTÕES ── */
+    .painel-demo {
+      background: #0d1117;
+      border-radius: 14px;
+      padding: 28px 22px 32px;
+      min-height: 360px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .painel-demo-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pd-btn {
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: default;
+      background: #1e2330;
+      color: #4a5168;
+      transform: scale(1);
+      transition: color 0.15s;
+    }
+    .pd-btn-1 { animation: pdBtn1 8s infinite; }
+    .pd-btn-2 { animation: pdBtn2 8s infinite; }
+    .pd-btn-3 { animation: pdBtn3 8s infinite; }
+    .pd-btn-4 { animation: pdBtn4 8s infinite; }
+
+    @keyframes pdBtn1 {
+      0%    { background:#1e2330; color:#4a5168; transform:scale(1); }
+      0.5%  { transform:scale(0.91); }
+      3%    { transform:scale(1); background:#EA1D2C; color:#fff; }
+      23%   { background:#EA1D2C; color:#fff; transform:scale(1); box-shadow:0 0 18px rgba(234,29,44,0.5); }
+      25%   { background:#1e2330; color:#4a5168; box-shadow:none; }
+      100%  { background:#1e2330; color:#4a5168; }
+    }
+    @keyframes pdBtn2 {
+      0%    { background:#1e2330; color:#4a5168; }
+      25%   { background:#1e2330; color:#4a5168; transform:scale(1); }
+      25.5% { transform:scale(0.91); }
+      28%   { transform:scale(1); background:#28a745; color:#fff; }
+      48%   { background:#28a745; color:#fff; transform:scale(1); box-shadow:0 0 18px rgba(40,167,69,0.5); }
+      50%   { background:#1e2330; color:#4a5168; box-shadow:none; }
+      100%  { background:#1e2330; color:#4a5168; }
+    }
+    @keyframes pdBtn3 {
+      0%    { background:#1e2330; color:#4a5168; }
+      50%   { background:#1e2330; color:#4a5168; transform:scale(1); }
+      50.5% { transform:scale(0.91); }
+      53%   { transform:scale(1); background:#6366f1; color:#fff; }
+      73%   { background:#6366f1; color:#fff; transform:scale(1); box-shadow:0 0 18px rgba(99,102,241,0.5); }
+      75%   { background:#1e2330; color:#4a5168; box-shadow:none; }
+      100%  { background:#1e2330; color:#4a5168; }
+    }
+    @keyframes pdBtn4 {
+      0%    { background:#1e2330; color:#4a5168; }
+      75%   { background:#1e2330; color:#4a5168; transform:scale(1); }
+      75.5% { transform:scale(0.91); }
+      78%   { transform:scale(1); background:#0ea5e9; color:#fff; }
+      98%   { background:#0ea5e9; color:#fff; transform:scale(1); box-shadow:0 0 18px rgba(14,165,233,0.5); }
+      99%   { background:#1e2330; color:#4a5168; box-shadow:none; }
+      100%  { background:#1e2330; color:#4a5168; }
+    }
+    .painel-demo-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .pd-field { display: flex; flex-direction: column; gap: 5px; }
+    .pd-field span { font-size: 0.72rem; color: #4a5168; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .pd-input {
+      background: #161b27;
+      border: 1px solid #2a3045;
+      border-radius: 6px;
+      color: #e4e7ec;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 9px 12px;
+    }
+    .pd-result {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .pd-result-item {
+      background: #161b27;
+      border: 1px solid #2a3045;
+      border-radius: 8px;
+      padding: 12px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: #4a5168;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pd-result-item strong {
+      font-size: 1.25rem;
+      color: #e4e7ec;
+      font-weight: 800;
+    }
+    .pd-result-item strong.green { color: #28a745; }
+
+    /* ═══════════════════════════════
+       SEÇÃO 6 — CDO
+    ═══════════════════════════════ */
+    #cdo { padding: 96px 0; background: var(--gray-bg); }
+    #cdo h2 { margin-bottom: 18px; font-size: 40px; }
+    #cdo p  { font-size: 1.05rem; }
+
+    /* ═══════════════════════════════
+       SEÇÃO 7 — COMBO FISCAL
+    ═══════════════════════════════ */
+    #combo-fiscal { padding: 96px 0; background: var(--white); }
+    #combo-fiscal h2 { margin-bottom: 18px; }
+    #combo-fiscal p  { font-size: 1.05rem; }
+    #combo-fiscal .cdo-chart-panel { min-height: unset; max-width: 420px; margin: 0 auto; }
+
+    /* ═══════════════════════════════
+       SEÇÃO 8 — EM BREVE
+    ═══════════════════════════════ */
+    #em-breve {
+      padding: 96px 0;
+      background: var(--gray-bg);
+      text-align: center;
+    }
+    .badge-em-breve {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      padding: 5px 18px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 22px;
+    }
+    #em-breve h2 {
+      margin-bottom: 20px;
+      max-width: 660px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #em-breve .em-intro {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      font-size: 1.05rem;
+    }
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+    .bonus-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+    .bonus-card-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--red);
+      margin-bottom: 14px;
+    }
+    .bonus-card p {
+      font-size: 0.97rem;
+      color: var(--gray-text);
+      line-height: 1.75;
+    }
+    .bonus-destaque { color: var(--red); font-weight: 700; }
+    .bonus-planos {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--red);
+      margin-top: 8px;
+    }
+
+    /* ═══════════════════════════════
+       SEÇÃO 9 — CTA FINAL
+    ═══════════════════════════════ */
+    #cta-final {
+      background: var(--red);
+      padding: 112px 24px;
+      text-align: center;
+    }
+    #cta-final h2 {
+      color: var(--white);
+      margin-bottom: 18px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #cta-final p {
+      color: rgba(255,255,255,0.88);
+      font-size: 1.1rem;
+      margin-bottom: 44px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ═══════════════════════════════
+       FOOTER
+    ═══════════════════════════════ */
+    footer {
+      background: var(--white);
+      border-top: 1px solid #eaeaea;
+      padding: 36px 24px;
+      text-align: center;
+    }
+    footer p { font-size: 0.9rem; color: #888; margin-bottom: 8px; }
+    footer a { color: var(--red); text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ═══════════════════════════════
+       RESPONSIVO — 768px
+    ═══════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Navbar */
+      .nav-links        { display: none; }
+      .hamburger        { display: flex; }
+      .nav-right .btn   { display: none; }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 24px;
+        gap: 24px;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+        z-index: 999;
+      }
+      .nav-links.open a { font-size: 1.05rem; }
+
+      /* Grid → coluna única */
+      .two-col, .social-inner, .bonus-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      /* Imagens sobem antes do texto em seções alternadas */
+      #anti-golpe .two-col > div:last-child,
+      #cdo .two-col > div:last-child { order: -1; }
+
+      /* Paddings menores */
+      #hero         { padding: 64px 0 48px; }
+      #social-proof { padding: 60px 0; }
+      #dor, #anti-golpe, #fazer-caixa, #cdo, #combo-fiscal, #em-breve { padding: 64px 0; }
+      #cta-final    { padding: 80px 24px; }
+
+      /* Combo hero menor no mobile */
+      .combo-img { width: 200px; }
+      .lata-giro-certo { width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="logos/logo-giro-certo003.png" alt="GiroCerto" style="height:69px;width:auto;display:block;">
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#cdo">Funcionalidades</a></li>
+      <li><a href="#anti-golpe">Anti-Golpe</a></li>
+      <li><a href="#fazer-caixa">Venda mais</a></li>
+      <li><a href="#em-breve">Bônus</a></li>
+      <li><a href="#cta-final">Preços</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="https://wa.me/message/PQAI5E6GFADDI1" target="_blank" rel="noopener"
+         class="btn btn-red" style="padding:12px 22px;font-size:0.9rem;">
+        Falar no WhatsApp
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ SEÇÃO 1 — HERO ══════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="two-col">
+
+      <div class="hero-text">
+        <h1>Seu restaurante está gerindo caixa. Mas está <span class="highlight">fazendo caixa?</span></h1>
+        <p>Giro Certo é o único sistema que combina gestão, precificação, proteção contra golpes e ainda ajuda você a vender mais para o mesmo cliente (fidelização de cliente). Tudo em um só lugar, direto do seu computador. <strong style="color:#EA1D2C;font-size:1.5rem;font-weight:900;line-height:1.2;display:block;">15 dias gratuito<br>para você testar.</strong></p>
+        <a href="https://wa.me/message/PQAI5E6GFADDI1" target="_blank" rel="noopener" class="btn btn-red">
+          Quero ver o GiroCerto funcionando
+        </a>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-combo">
+          <img src="ideias/produtos/combo/combo.png" alt="Combo de produtos" class="combo-img">
+          <div id="lataGiroCerto" class="lata-giro-certo">
+            <img src="ideias/produtos/latinha girando/01 latinha_girando.png" alt="Lata GiroCerto">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SEÇÃO 2 — PROVA SOCIAL ══════════ -->
+<!-- ══════════ SEÇÃO 4 — ANTI-GOLPE ══════════ -->
+<section id="anti-golpe">
+  <div class="container">
+    <div class="two-col">
+
+      <div>
+        <h2>O primeiro sistema <span class="highlight">anti-golpe</span> do Brasil para restaurantes.</h2>
+        <p>Golpistas estão usando inteligência artificial para alterar fotos de pedidos e pedir reembolso direto na plataforma. Você perde o dinheiro, o tempo e ainda fica sem prova. Com o Giro Certo, você recebe alerta vermelho quando um golpista chega <strong style="color:#EA1D2C;">antes mesmo de preparar o pedido.</strong></p>
+      </div>
+
+      <div>
+        <div class="anti-golpe-img-wrap">
+          <img src="painel giro certo/03.png" alt="Painel Anti-Fraude GiroCerto" class="painel">
+          <img src="arrow_left.png" alt="" class="anti-golpe-arrow">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="social-proof">
+  <div class="container">
+    <div class="social-inner">
+
+      <div>
+        <div class="cert-wrap">
+          <img src="giro certo autoriado pelo ifood 2.jpg" alt="Giro Certo autorizado pelo iFood" class="cert-img">
+          <img src="selo azul 01.png" alt="Verificado" class="cert-selo-float">
+        </div>
+      </div>
+
+      <div class="social-text">
+        <h2>
+          Certificado pelo iFood.
+          <img src="selo azul 01.png" alt="Verificado" style="width:30px;height:30px;vertical-align:middle;margin-left:6px;">
+        </h2>
+        <p>Encontre o GiroCerto no marketplace oficial da plataforma e confira o selo de aprovação. Segurança e confiança para o seu restaurante.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="fidelizacao">
+  <div class="container">
+    <div class="social-inner">
+
+      <div class="social-text">
+        <h2 style="color:#EA1D2C;font-weight:900;">Fidelize seus clientes e aumente suas vendas</h2>
+        <p style="color:#111111;">Você sabia que suas vendas aumentam mais quando você fideliza o cliente e seu custo é menor do que ir atrás de um cliente novo? É justamente isso que a Giro Certo faz: <strong style="color:#EA1D2C;">fidelizar seus clientes para que eles voltem a comprar de você.</strong></p>
+      </div>
+
+      <div>
+        <div class="cert-wrap">
+          <img src="cliente fiel 02.jpg" alt="Fidelização de clientes" class="cert-img" style="max-width:340px;">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="dor">
+  <div class="container">
+    <h2>Você sabe quanto entrou hoje. Mas sabe quanto <span class="highlight">sobrou?</span></h2>
+    <p>A maioria dos donos de restaurante fecha o mês no escuro. Sabe o faturamento, mas não sabe a margem. Trabalha muito, mas não sabe se está tendo lucro de verdade. E ainda corre o risco de pagar por um pedido que nunca foi seu problema — porque um cliente usou inteligência artificial pra adulterar a foto e acionar o iFood.</p>
+  </div>
+</section>
+
+<!-- ══════════ SEÇÃO 5 — FAZER CAIXA ══════════ -->
+<section id="fazer-caixa">
+  <div class="container">
+    <div class="two-col">
+
+      <div>
+        <div class="painel-demo">
+          <div class="painel-demo-btns">
+            <button class="pd-btn pd-btn-1">💰 Precificar</button>
+            <button class="pd-btn pd-btn-2">Criar Promoção</button>
+            <button class="pd-btn pd-btn-3">Agendar Promoção</button>
+            <button class="pd-btn pd-btn-4">Frete Grátis</button>
+          </div>
+          <div class="painel-demo-fields">
+            <div class="pd-field"><span>Custos Variáveis</span><div class="pd-input">R$ 5.000</div></div>
+            <div class="pd-field"><span>Custos Fixos</span><div class="pd-input">R$ 1.000</div></div>
+            <div class="pd-field"><span>Margem Desejada</span><div class="pd-input">30%</div></div>
+          </div>
+          <div class="pd-result">
+            <div class="pd-result-item">Preço sugerido<strong>R$ 42,90</strong></div>
+            <div class="pd-result-item">Margem real<strong class="green">32%</strong></div>
+            <div class="pd-result-item">Lucro líquido<strong>R$ 15,00</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2>Mais do que gerir caixa, é <span class="highlight">fazer caixa.</span></h2>
+        <p>Promoção não é dar desconto. Promoção é promover um produto (ou mais de um) para aumentar suas vendas sem desconto. Além disso, o Giro Certo calcula a precificação certa pra você não vender no prejuízo. <strong style="color:#EA1D2C;">O seu verdadeiro guardião Financeiro.</strong></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SEÇÃO 6 — CDO ══════════ -->
+<section id="cdo">
+  <div class="container">
+    <div class="two-col">
+
+      <div>
+        <h2><span style="font-size:30px;">Sua Central de Oportunidades</span><br><span style="color:#EA1D2C;font-weight:700;">para vender mais!</span></h2>
+        <p>Dúvidas de como vender mais? A Central de Oportunidades mostra exatamente o que você deve fazer <strong style="color:#EA1D2C;">apenas com um clique para aumentar o seu faturamento sem esforço.</strong></p>
+      </div>
+
+      <div>
+        <div class="cdo-cards-anim">
+          <img src="painel giro certo/cards 3.png" alt="Cards CDO" class="cdo-cards-img">
+          <div class="cdo-card-overlay" id="cdoCardOv1"></div>
+          <div class="cdo-card-overlay" id="cdoCardOv2"></div>
+          <div class="cdo-card-overlay" id="cdoCardOv3"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SEÇÃO 7 — COMBO FISCAL ══════════ -->
+<section id="combo-fiscal">
+  <div class="container">
+    <div class="two-col">
+
+      <div>
+        <div class="cdo-chart-panel">
+          <div class="cdo-chart-title">Visão geral do negócio</div>
+          <canvas id="cdoChartCanvas2" height="220"></canvas>
+          <div class="cdo-chart-legend">
+            <span><span class="cdo-dot-g"></span> Faturamento</span>
+            <span><span class="cdo-dot-r"></span> Custos</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2>O segredo dos grandes fast-foods que os pequenos restaurantes <span class="highlight">ainda não conhecem.</span></h2>
+        <p>O segredo vai além dos fornecedores. Combinar os produtos certos podem <strong style="color:#EA1D2C;">reduzir os custos e aumentar o ticket médio do seu negócio, e o Giro Certo te mostra como.</strong></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SEÇÃO 8 — BÔNUS ══════════ -->
+<section id="em-breve">
+  <div class="container">
+    <span class="badge-em-breve">Bônus</span>
+    <h2>Assinando o GiroCerto hoje você leva <span class="highlight">3 bônus gratuitos!</span></h2>
+    <p class="em-intro">Vamos analisar por completo a sua loja com base no algoritmo do iFood, 99food e Keeta. Análise do seu cardápio físico, geladeira e vitrine pra vender mais no balcão. Tudo com foto e sem planilhas chatas e complicadas de entender.</p>
+
+    <div class="bonus-grid">
+
+      <div class="bonus-card">
+        <div class="bonus-card-title">Faça o iFood, 99Food e Keeta trabalharem para você.</div>
+        <p>Análise gratuita e completa do seu restaurante nas plataformas com base de como o algoritmo funciona para trabalhar ao seu favor e <span class="bonus-destaque">recomendar a sua loja acima dos concorrentes</span>.</p>
+      </div>
+
+      <div class="bonus-card">
+        <div class="bonus-card-title">Análise do seu cardápio</div>
+        <p>Você atende seus clientes no salão ou balcão no seu restaurante? (atendimento presencial). Você também leva uma <span class="bonus-destaque">análise gratuita e completa do cardápio físico</span> para ajudar a aumentar suas vendas.</p>
+      </div>
+
+      <div class="bonus-card">
+        <div class="bonus-card-title">Venda mais no balcão</div>
+        <p>Uma análise da sua geladeira e vitrine do caixa para <span class="bonus-destaque">vender mais no balcão</span> e ajudar e treinar seus colaboradores a vender mais.</p>
+      </div>
+
+    </div>
+
+    <p class="bonus-planos">Planos a partir de R$ 197,00 mensal</p>
+  </div>
+</section>
+
+<!-- ══════════ SEÇÃO 9 — CTA FINAL ══════════ -->
+<section id="cta-final">
+  <h2>Pronto pra fazer mais caixa com o mesmo restaurante?</h2>
+  <p>Fale com a gente pelo WhatsApp e veja o GiroCerto funcionando de verdade. Planos a partir de R$ 197,00/mensal.</p>
+  <a href="https://wa.me/message/PQAI5E6GFADDI1" target="_blank" rel="noopener" class="btn btn-white">
+    Falar com especialista no WhatsApp
+  </a>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <p>© 2026 GiroCerto — RickNollan Vendas e Automações</p>
+  <p><a href="https://wa.me/message/PQAI5E6GFADDI1" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+</footer>
+
+<script>
+  // Mobile hamburger menu
+  var hamburger = document.getElementById('hamburger');
+  var navLinks  = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', function () {
+    navLinks.classList.toggle('open');
+  });
+
+  navLinks.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // ── BATATA FÍSICA ──────────────────────────────────────────
+  var fryDataUrl        = null;
+  var calabresaDataUrl  = null;
+  var lataCollided      = false;
+
+  // PASSO 1a — recortar palito de batata via canvas
+  (function () {
+    var img = new Image();
+    img.onload = function () {
+      try {
+        var c = document.createElement('canvas');
+        c.width = 35; c.height = 180;
+        var ctx = c.getContext('2d');
+        ctx.drawImage(img, 420, 80, 35, 180, 0, 0, 35, 180);
+        fryDataUrl = c.toDataURL('image/png');
+      } catch (e) {
+        fryDataUrl = 'fallback';
+      }
+    };
+    img.src = 'ideias/produtos/batata transp-01.png';
+  })();
+
+  // PASSO 1b — recortar fatia de calabresa via canvas
+  (function () {
+    var img = new Image();
+    img.onload = function () {
+      try {
+        var c = document.createElement('canvas');
+        c.width = 100; c.height = 100;
+        var ctx = c.getContext('2d');
+        ctx.drawImage(img, 350, 100, 100, 100, 0, 0, 100, 100);
+        calabresaDataUrl = c.toDataURL('image/png');
+      } catch (e) {
+        calabresaDataUrl = 'fallback';
+      }
+    };
+    img.src = 'ideias/produtos/pizza calabresa.png';
+  })();
+
+  // PASSO 3/4 — spawn batatas + calabresa
+  function spawnBatatas(comboRect) {
+    spawnCalabresa(comboRect);
+    var spawnX = comboRect.right - 90;
+    var spawnY = comboRect.top + comboRect.height * 0.25;
+
+    for (var i = 0; i < 10; i++) {
+      (function (idx) {
+        var el;
+        if (fryDataUrl && fryDataUrl !== 'fallback') {
+          el = document.createElement('img');
+          el.src = fryDataUrl;
+        } else {
+          el = document.createElement('div');
+          el.style.background = 'linear-gradient(to bottom, #f5c542, #d4880a)';
+          el.style.borderRadius = '4px';
+        }
+        el.style.position      = 'fixed';
+        el.style.width         = '12px';
+        el.style.height        = '55px';
+        el.style.left          = spawnX + 'px';
+        el.style.top           = spawnY + 'px';
+        el.style.pointerEvents = 'none';
+        el.style.zIndex        = '9999';
+        document.body.appendChild(el);
+
+        var posX    = spawnX;
+        var posY    = spawnY;
+        var velX    = (Math.random() * 8) - 4;
+        var velY    = -(Math.random() * 6 + 12);
+        var rot     = 0;
+        var rotSpd  = (Math.random() * 16) - 8;
+        var gravity = 0.6;
+
+        function tick() {
+          velY += gravity;
+          posX += velX;
+          posY += velY;
+          rot  += rotSpd;
+          el.style.left      = posX + 'px';
+          el.style.top       = posY + 'px';
+          el.style.transform = 'rotate(' + rot + 'deg)';
+          if (posY > window.innerHeight + 60) {
+            el.parentNode && el.parentNode.removeChild(el);
+            return;
+          }
+          requestAnimationFrame(tick);
+        }
+        setTimeout(function () { requestAnimationFrame(tick); }, idx * 30);
+      })(i);
+    }
+  }
+
+  // CALABRESA — spawn + física
+  function spawnCalabresa(comboRect) {
+    // Pizza fica no topo-centro do combo
+    var spawnX = comboRect.left + comboRect.width * 0.45;
+    var spawnY = comboRect.top  + comboRect.height * 0.08;
+
+    for (var i = 0; i < 8; i++) {
+      (function (idx) {
+        var el;
+        if (calabresaDataUrl && calabresaDataUrl !== 'fallback') {
+          el = document.createElement('img');
+          el.src = calabresaDataUrl;
+        } else {
+          el = document.createElement('div');
+          el.style.background    = '#8B1A1A';
+          el.style.borderRadius  = '50%';
+          el.style.border        = '2px solid #5a0f0f';
+        }
+        el.style.position      = 'fixed';
+        el.style.width         = '36px';
+        el.style.height        = '36px';
+        el.style.left          = spawnX + 'px';
+        el.style.top           = spawnY + 'px';
+        el.style.pointerEvents = 'none';
+        el.style.zIndex        = '9999';
+        document.body.appendChild(el);
+
+        var posX    = spawnX;
+        var posY    = spawnY;
+        var velX    = (Math.random() * 10) - 5;
+        var velY    = -(Math.random() * 8 + 10);
+        var rot     = 0;
+        var rotSpd  = (Math.random() * 12) - 6;
+        var gravity = 0.55;
+
+        function tick() {
+          velY += gravity;
+          posX += velX;
+          posY += velY;
+          rot  += rotSpd;
+          el.style.left      = posX + 'px';
+          el.style.top       = posY + 'px';
+          el.style.transform = 'rotate(' + rot + 'deg)';
+          if (posY > window.innerHeight + 60) {
+            el.parentNode && el.parentNode.removeChild(el);
+            return;
+          }
+          requestAnimationFrame(tick);
+        }
+        setTimeout(function () { requestAnimationFrame(tick); }, idx * 25);
+      })(i);
+    }
+  }
+
+  // PASSO 2 — detectar colisão
+  function startCollisionDetection() {
+    var lataEl  = document.getElementById('lataGiroCerto');
+    var comboEl = document.querySelector('.combo-img');
+
+    function check() {
+      if (lataCollided) return;
+      var lr = lataEl.getBoundingClientRect();
+      var cr = comboEl.getBoundingClientRect();
+      if (lr.left <= cr.right + 5) {
+        lataCollided = true;
+        spawnBatatas(cr);
+        return;
+      }
+      requestAnimationFrame(check);
+    }
+    requestAnimationFrame(check);
+  }
+
+  // ── SLIDE lata-giro-certo ───────────────────────────────────
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          document.getElementById('lataGiroCerto').style.transform = 'translateX(0)';
+          startCollisionDetection();
+        });
+      });
+    }, 500);
+  });
+
+  // ── CDO CHART ANIMATION ────────────────────────────────────
+  function initCdoChart(canvasId) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    var ctx = canvas.getContext('2d');
+    var W, H;
+    var PAD   = { l: 16, r: 112, t: 22, b: 16 };
+    var GREEN = '#22c55e';
+    var RED   = '#ef4444';
+    // ambas saem do centro esquerdo [0, 0.5]
+    var greenPts = [[0,0.50],[0.18,0.43],[0.36,0.33],[0.54,0.21],[0.74,0.12],[1,0.05]];
+    var redPts   = [[0,0.50],[0.18,0.57],[0.36,0.65],[0.54,0.74],[0.74,0.82],[1,0.88]];
+
+    function resize() {
+      var w = canvas.parentElement.clientWidth;
+      W = canvas.width  = w > 0 ? w : 420;
+      H = canvas.height = window.innerWidth < 480 ? 150 : 220;
+    }
+
+    function toPx(pt) {
+      return [
+        PAD.l + pt[0] * (W - PAD.l - PAD.r),
+        PAD.t + pt[1] * (H - PAD.t - PAD.b)
+      ];
+    }
+
+    function getTip(pts, t) {
+      var n   = pts.length - 1;
+      var seg = Math.min(t * n, n - 0.0001);
+      var idx = Math.floor(seg);
+      var f   = seg - idx;
+      var a   = toPx(pts[idx]);
+      var b   = toPx(pts[Math.min(idx + 1, n)]);
+      return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+    }
+
+    function buildVisiblePts(pts, t) {
+      var n   = pts.length - 1;
+      var seg = Math.min(t * n, n - 0.0001);
+      var idx = Math.floor(seg);
+      var f   = seg - idx;
+      var vis = pts.slice(0, idx + 1).map(toPx);
+      var a   = toPx(pts[idx]);
+      var b   = toPx(pts[Math.min(idx + 1, n)]);
+      vis.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
+      return vis;
+    }
+
+    function strokeSmooth(cp) {
+      // midpoint quadratic bezier — curva suave entre os pontos
+      ctx.beginPath();
+      ctx.moveTo(cp[0][0], cp[0][1]);
+      for (var k = 1; k < cp.length - 1; k++) {
+        var mx = (cp[k][0] + cp[k + 1][0]) / 2;
+        var my = (cp[k][1] + cp[k + 1][1]) / 2;
+        ctx.quadraticCurveTo(cp[k][0], cp[k][1], mx, my);
+      }
+      ctx.lineTo(cp[cp.length - 1][0], cp[cp.length - 1][1]);
+      ctx.stroke();
+    }
+
+    function drawLine(pts, color, t, alpha, label) {
+      var cp  = buildVisiblePts(pts, t);
+      var tip = cp[cp.length - 1];
+
+      ctx.save();
+
+      // glow
+      ctx.globalAlpha = alpha * 0.18;
+      ctx.shadowColor = color; ctx.shadowBlur = 20;
+      ctx.strokeStyle = color; ctx.lineWidth = 7;
+      ctx.lineJoin = 'round';  ctx.lineCap = 'round';
+      strokeSmooth(cp);
+
+      // main
+      ctx.globalAlpha = alpha;
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+      strokeSmooth(cp);
+
+      // dot glow
+      ctx.globalAlpha = alpha * 0.28;
+      ctx.shadowColor = color; ctx.shadowBlur = 18;
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(tip[0], tip[1], 10, 0, Math.PI * 2); ctx.fill();
+
+      // dot core
+      ctx.globalAlpha = alpha; ctx.shadowBlur = 0;
+      ctx.fillStyle = '#0d1117';
+      ctx.beginPath(); ctx.arc(tip[0], tip[1], 4.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(tip[0], tip[1], 3, 0, Math.PI * 2); ctx.fill();
+
+      // label
+      ctx.font = 'bold 12px Inter, system-ui, sans-serif';
+      ctx.fillStyle = color;
+      ctx.fillText(label, tip[0] + 11, tip[1] + 4);
+      ctx.restore();
+    }
+
+    var DRAW  = 5000;
+    var HOLD  = 2000;
+    var FADE  = 600;
+    var CYCLE = DRAW + HOLD + FADE;
+    var cycleStart = null;
+
+    function frame(now) {
+      if (cycleStart === null) cycleStart = now;
+      var elapsed = now - cycleStart;
+      if (elapsed >= CYCLE) { cycleStart = now; elapsed = 0; }
+
+      var t, alpha;
+      if (elapsed < DRAW) {
+        var raw = elapsed / DRAW;
+        t = 1 - (1 - raw) * (1 - raw);
+        alpha = 1;
+      } else if (elapsed < DRAW + HOLD) {
+        t = 1; alpha = 1;
+      } else {
+        t = 1;
+        alpha = Math.max(0, 1 - (elapsed - DRAW - HOLD) / FADE);
+      }
+
+      resize();
+      ctx.clearRect(0, 0, W, H);
+
+      // grid
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1;
+      for (var i = 1; i < 4; i++) {
+        var gy = PAD.t + (i / 4) * (H - PAD.t - PAD.b);
+        ctx.beginPath(); ctx.moveTo(PAD.l, gy); ctx.lineTo(W - PAD.r, gy); ctx.stroke();
+      }
+      ctx.restore();
+
+      drawLine(greenPts, GREEN, t, alpha, '↑ Faturamento');
+      drawLine(redPts,   RED,   t, alpha, '↓ Custo');
+
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  // ── CDO CARDS HIGHLIGHT LOOP ───────────────────────────────
+  function initCdoCardsAnim() {
+    var ovs = [
+      document.getElementById('cdoCardOv1'),
+      document.getElementById('cdoCardOv2'),
+      document.getElementById('cdoCardOv3')
+    ];
+    if (!ovs[0]) return;
+
+    var current = 0;
+    var HOLD = 2200; // tempo que o card fica destacado (ms)
+
+    function activate(idx) {
+      ovs.forEach(function(ov) { ov.style.opacity = '1'; });
+      ovs[idx].style.opacity = '0';
+      setTimeout(function() {
+        current = (current + 1) % 3;
+        activate(current);
+      }, HOLD + 700); // espera highlight (0.7s) + hold
+    }
+
+    activate(0);
+  }
+
+  window.addEventListener('load', function () {
+    initCdoChart('cdoChartCanvas2');
+    initCdoCardsAnim();
+  });
+</script>
+
+
+</body>
+</html>
