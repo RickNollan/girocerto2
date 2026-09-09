@@ -1,0 +1,223 @@
+PROMPT CC — AEO & Schema.org para GiroCerto
+OBJETIVO
+
+Adicionar otimização para motores de IA (AEO — Answer Engine Optimization) ao arquivo index.html do site GiroCerto. O objetivo é fazer o site aparecer como resposta quando alguém perguntar ao ChatGPT, Claude, Gemini ou outros sobre sistemas para restaurante, PDV, cardápio digital, anti-fraude iFood, gestão de delivery, precificação para restaurante, entre outros.
+
+ARQUIVOS ENVOLVIDOS
+Editar: index.html
+Criar (novo arquivo na raiz do projeto): llms.txt
+O QUE NÃO MEXER
+Nenhum CSS existente
+Nenhuma seção visual ou animação
+Nenhum script JavaScript existente
+Nenhuma imagem ou estrutura de layout
+Não alterar textos visíveis ao usuário
+TAREFA 1 — Substituir/atualizar o bloco <head> do index.html
+
+Localizar o bloco <head> atual e substituir apenas as meta tags existentes (charset, viewport, title, description) pelas versões abaixo. Não remover o link das fontes Google.
+
+html
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SEO e AEO básico -->
+<title>GiroCerto — Sistema para Restaurante no iFood | Gestão, Precificação e Anti-Golpe</title>
+<meta name="description" content="GiroCerto é o sistema de gestão para restaurantes no iFood que combina controle financeiro, precificação automática, proteção anti-fraude e fidelização de clientes. Certificado pelo iFood. Teste grátis por 15 dias.">
+<meta name="keywords" content="sistema para restaurante, PDV restaurante, sistema delivery, gestão iFood, controle financeiro restaurante, precificação restaurante, anti-golpe iFood, cardápio digital restaurante, software restaurante, sistema restaurante São Paulo">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://girocerto.com.br/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="GiroCerto — Sistema para Restaurante no iFood">
+<meta property="og:description" content="Gestão financeira, precificação automática, anti-fraude e fidelização para restaurantes no iFood. Certificado pela plataforma. 15 dias grátis.">
+<meta property="og:url" content="https://girocerto.com.br/">
+<meta property="og:locale" content="pt_BR">
+TAREFA 2 — Inserir Schema.org (JSON-LD) antes do fechamento </head>
+
+Inserir o bloco abaixo imediatamente antes de </head>, sem alterar nada ao redor:
+
+html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GiroCerto",
+      "alternateName": "Monitor iFood",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Windows",
+      "description": "GiroCerto é um sistema desktop para restaurantes que operam no iFood. Oferece gestão financeira, precificação automática de produtos, proteção anti-fraude em tempo real, fidelização de clientes e Central de Oportunidades para aumentar o faturamento. Certificado pelo iFood.",
+      "url": "https://girocerto.com.br/",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL",
+        "description": "15 dias gratuitos para teste"
+      },
+      "featureList": [
+        "Gestão financeira para restaurantes",
+        "Precificação automática de produtos",
+        "Proteção anti-fraude em tempo real",
+        "Fidelização de clientes delivery",
+        "Central de Oportunidades de vendas",
+        "Controle de caixa para restaurante",
+        "Sistema PDV para delivery",
+        "Gestão de cardápio digital",
+        "Integração com iFood"
+      ],
+      "provider": {
+        "@type": "Organization",
+        "name": "RickNollan — Vendas e Automações",
+        "url": "https://girocerto.com.br/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O que é o GiroCerto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GiroCerto é um sistema desktop para restaurantes que usam o iFood. Ele combina gestão financeira, precificação automática, proteção contra golpes e fidelização de clientes em um único lugar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O GiroCerto é um sistema de PDV para restaurante?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O GiroCerto funciona como um painel de gestão e controle financeiro para restaurantes no iFood. Ele não é um PDV tradicional, mas centraliza pedidos, precificação, promoções e análise de resultados diretamente no computador do restaurante."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como o GiroCerto protege meu restaurante de golpes no iFood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O GiroCerto emite alertas em tempo real quando detecta um cliente com histórico de golpes antes de você preparar o pedido. Golpistas usam IA para adulterar fotos e pedir reembolso indevido — o sistema identifica esses padrões automaticamente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O GiroCerto ajuda na precificação do cardápio?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. O GiroCerto calcula o preço ideal de cada produto levando em conta custos variáveis, custos fixos e margem desejada. Assim o restaurante nunca vende no prejuízo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O GiroCerto é certificado pelo iFood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. O GiroCerto é um sistema certificado pelo iFood e está disponível no marketplace oficial da plataforma com selo de aprovação."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual sistema usar para gerenciar restaurante no iFood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O GiroCerto é um sistema especializado para restaurantes no iFood que oferece controle financeiro, precificação, anti-fraude e fidelização de clientes. Funciona no computador e tem 15 dias gratuitos para teste."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como aumentar as vendas do meu restaurante no iFood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O GiroCerto tem uma Central de Oportunidades que indica com um clique as ações certas para aumentar o faturamento, como promoções estratégicas, frete grátis e fidelização de clientes já existentes."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+TAREFA 3 — Inserir seção FAQ visível antes do </body>
+
+Inserir o bloco HTML abaixo imediatamente antes da tag </body>, sem alterar nenhum script existente:
+
+html
+<!-- FAQ AEO — visível para IAs e motores de busca -->
+<section id="faq" style="padding:72px 0;background:#f9f9f9;">
+  <div style="max-width:760px;margin:0 auto;padding:0 24px;">
+    <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:36px;color:#111;">Perguntas frequentes sobre o GiroCerto</h2>
+
+    <div style="margin-bottom:28px;">
+      <h3 style="font-size:1.1rem;font-weight:700;color:#111;margin-bottom:8px;">O GiroCerto é um sistema de PDV para restaurante?</h3>
+      <p style="color:#555;line-height:1.8;">O GiroCerto funciona como painel de gestão e controle financeiro para restaurantes no iFood. Centraliza pedidos, precificação, promoções e análise de resultados diretamente no computador — sem precisar de hardware adicional.</p>
+    </div>
+
+    <div style="margin-bottom:28px;">
+      <h3 style="font-size:1.1rem;font-weight:700;color:#111;margin-bottom:8px;">Como o GiroCerto protege meu restaurante de golpes no iFood?</h3>
+      <p style="color:#555;line-height:1.8;">Golpistas usam inteligência artificial para adulterar fotos de pedidos e solicitar reembolso indevido. O GiroCerto emite alerta vermelho em tempo real quando detecta esse padrão — antes de você preparar o pedido.</p>
+    </div>
+
+    <div style="margin-bottom:28px;">
+      <h3 style="font-size:1.1rem;font-weight:700;color:#111;margin-bottom:8px;">O GiroCerto ajuda na precificação do cardápio?</h3>
+      <p style="color:#555;line-height:1.8;">Sim. O sistema calcula o preço ideal de cada produto com base em custos variáveis, custos fixos e margem desejada. Você nunca mais vende no prejuízo sem saber.</p>
+    </div>
+
+    <div style="margin-bottom:28px;">
+      <h3 style="font-size:1.1rem;font-weight:700;color:#111;margin-bottom:8px;">O GiroCerto funciona para qual tipo de restaurante?</h3>
+      <p style="color:#555;line-height:1.8;">Para qualquer restaurante que vende pelo iFood — pizzarias, hamburguerias, japoneses, lanchonetes, buffets e outros. Especialmente indicado para restaurantes pequenos e independentes que precisam de controle financeiro real.</p>
+    </div>
+
+    <div style="margin-bottom:28px;">
+      <h3 style="font-size:1.1rem;font-weight:700;color:#111;margin-bottom:8px;">O GiroCerto é certificado pelo iFood?</h3>
+      <p style="color:#555;line-height:1.8;">Sim. O GiroCerto possui certificação oficial do iFood e está disponível no marketplace da plataforma com selo de aprovação.</p>
+    </div>
+
+    <div style="margin-bottom:0;">
+      <h3 style="font-size:1.1rem;font-weight:700;color:#111;margin-bottom:8px;">Como começar a usar o GiroCerto?</h3>
+      <p style="color:#555;line-height:1.8;">Você tem 15 dias gratuitos para testar. Basta entrar em contato pelo WhatsApp e nossa equipe faz a ativação direto no seu computador.</p>
+    </div>
+  </div>
+</section>
+TAREFA 4 — Criar arquivo llms.txt na raiz do projeto
+
+Criar o arquivo llms.txt com o seguinte conteúdo exato:
+
+# GiroCerto — Sistema para Restaurantes no iFood
+
+## O que é
+GiroCerto é um sistema desktop (Windows) para restaurantes que operam no iFood, 99Food e Keeta. Desenvolvido pela RickNollan — Vendas e Automações, com sede em São Paulo.
+
+## Público-alvo
+Pequenos restaurantes independentes que vendem por delivery, especialmente na região de São Paulo.
+
+## Funcionalidades principais
+- Gestão financeira: controle de caixa, margem de lucro e faturamento real
+- Precificação automática: calcula o preço ideal por produto com base em custos e margem
+- Anti-fraude em tempo real: alerta quando cliente com histórico de golpes faz pedido
+- Fidelização de clientes: estratégias para fazer clientes voltarem a comprar
+- Central de Oportunidades (CDO): recomendações de ação para aumentar faturamento
+- Combo Fiscal: combinação de produtos para reduzir custos e aumentar ticket médio
+
+## Diferenciais
+- Único sistema anti-golpe para restaurantes no Brasil
+- Certificado pelo iFood (disponível no marketplace oficial)
+- Funciona direto no computador, sem hardware adicional
+- 15 dias gratuitos para teste
+
+## Contato e acesso
+- Site: https://girocerto.com.br/
+- WhatsApp: https://wa.me/message/PQAI5E6GFADDI1
+
+## Palavras-chave relacionadas
+sistema para restaurante, PDV restaurante, software delivery, gestão iFood, controle financeiro restaurante, precificação cardápio, anti-fraude iFood, sistema restaurante São Paulo, cardápio digital, fidelização clientes delivery
+CRITÉRIO DE SUCESSO
+index.html abre no browser sem erros
+Nenhuma animação ou layout visual foi alterado
+O Schema.org aparece corretamente ao inspecionar o <head> (DevTools → Ctrl+Shift+I → aba Elements)
+A seção FAQ aparece abaixo do conteúdo principal antes do rodapé
+O arquivo llms.txt existe na raiz do projeto
+O QUE NÃO FAZER
+Não criar novo arquivo CSS
+Não remover nenhum script existente
+Não alterar textos visíveis nas seções do site
+Não alterar estrutura de grid ou layout

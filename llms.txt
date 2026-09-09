@@ -1,0 +1,28 @@
+# GiroCerto — Sistema para Restaurantes no iFood
+
+## O que é
+GiroCerto é um sistema desktop (Windows) para restaurantes que operam no iFood, 99Food e Keeta. Desenvolvido pela RickNollan — Vendas e Automações, com sede em São Paulo.
+
+## Público-alvo
+Pequenos restaurantes independentes que vendem por delivery, especialmente na região de São Paulo.
+
+## Funcionalidades principais
+- Gestão financeira: controle de caixa, margem de lucro e faturamento real
+- Precificação automática: calcula o preço ideal por produto com base em custos e margem
+- Anti-fraude em tempo real: alerta quando cliente com histórico de golpes faz pedido
+- Fidelização de clientes: estratégias para fazer clientes voltarem a comprar
+- Central de Oportunidades (CDO): recomendações de ação para aumentar faturamento
+- Combo Fiscal: combinação de produtos para reduzir custos e aumentar ticket médio
+
+## Diferenciais
+- Único sistema anti-golpe para restaurantes no Brasil
+- Certificado pelo iFood (disponível no marketplace oficial)
+- Funciona direto no computador, sem hardware adicional
+- 15 dias gratuitos para teste
+
+## Contato e acesso
+- Site: https://girocerto.com.br/
+- WhatsApp: https://wa.me/message/PQAI5E6GFADDI1
+
+## Palavras-chave relacionadas
+sistema para restaurante, PDV restaurante, software delivery, gestão iFood, controle financeiro restaurante, precificação cardápio, anti-fraude iFood, sistema restaurante São Paulo, cardápio digital, fidelização clientes delivery
